@@ -1,0 +1,4 @@
+﻿@model SistemaSafeWork.Models.CambioContrasena
+@{ ViewBag.Title="Cambiar contraseña"; }
+<div class="page-heading"><div><span class="eyebrow">MI CUENTA</span><h1>Cambiar contraseña</h1><p>Usa al menos 10 caracteres para tu nueva contraseña.</p></div></div>
+@using(Html.BeginForm()){@Html.AntiForgeryToken()@Html.ValidationSummary(false,"",new{@class="errors"})<div class="panel form-panel"><label>@Html.DisplayNameFor(m=>m.Actual)</label>@Html.PasswordFor(m=>m.Actual,new{autocomplete="current-password"})<label>@Html.DisplayNameFor(m=>m.Nueva)</label>@Html.PasswordFor(m=>m.Nueva,new{autocomplete="new-password"})<label>@Html.DisplayNameFor(m=>m.Confirmacion)</label>@Html.PasswordFor(m=>m.Confirmacion,new{autocomplete="new-password"})<div class="form-actions"><button class="btn primary">Guardar contraseña</button><a class="btn" href="@Url.Action("Index","Home")">Cancelar</a></div></div>}

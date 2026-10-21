@@ -1,0 +1,8 @@
+@model System.Data.DataTable
+@using System.Data
+@using SistemaSafeWork.Models
+@{ViewBag.Title="Personal";}
+<div class="page-heading"><div><span class="eyebrow">SAFEWORK · ADMINISTRACIÓN</span><h1>Personal</h1><p>Administra las personas y sus categorías de seguridad.</p></div>@if(Access.Has(Context,"personas.crear")){<a class="btn primary" href="@Url.Action("Crear")">+ Agregar registro</a>}</div>
+<div class="panel"><form method="get" class="search"><input type="search" name="q" value="@ViewBag.Q" placeholder="Buscar por nombre o identificación" aria-label="Buscar registros" /><button class="btn" type="submit">Buscar</button><a class="btn" href="@Url.Action("Index")">Limpiar</a></form>
+@if(Model.Rows.Count==0){<div class="empty"><h2>No hay registros para mostrar</h2><p>Agrega un registro o cambia tu búsqueda para comenzar.</p></div>}else{<div class="table-scroll"><table><thead><tr><th>Fotografía</th><th>Nombre</th><th>Categoría</th><th>Nacimiento</th><th>DPI</th><th>Teléfono</th><th>Acciones</th></tr></thead><tbody>@foreach(DataRow row in Model.Rows){<tr><td><img class="table-photo" alt="Fotografía del personal" src="@(row["Fotografia"]==DBNull.Value?Url.Content("~/Content/Images/placeholder.svg"):Url.Action("Ver","Fotos",new{tipo="persona",id=row["Id"]}))" /></td><td>@row["Nombre"]</td><td><span class="pill">@row["Categoria"]</span></td><td>@(((DateTime)row["FechaNacimiento"]).ToString("dd/MM/yyyy"))</td><td>@row["DPI"]</td><td>@row["Telefono"]</td><td class="actions">@if(Access.Has(Context,"personas.editar")){<a href="@Url.Action("Editar",new{id=row["Id"]})">Editar</a>}@if(Access.Has(Context,"personas.eliminar")){<a class="delete" href="@Url.Action("Eliminar",new{id=row["Id"]})">Eliminar</a>}</td></tr>}</tbody></table></div>}</div>
+

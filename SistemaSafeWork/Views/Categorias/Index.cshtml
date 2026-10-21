@@ -1,0 +1,8 @@
+@model System.Data.DataTable
+@using System.Data
+@using SistemaSafeWork.Models
+@{ViewBag.Title="Categorías de personal";}
+<div class="page-heading"><div><span class="eyebrow">SAFEWORK · ADMINISTRACIÓN</span><h1>Categorías de personal</h1><p>Define el equipo obligatorio para cada grupo de trabajo.</p></div>@if(Access.Has(Context,"categorias.crear")){<a class="btn primary" href="@Url.Action("Crear")">+ Agregar registro</a>}</div>
+<div class="panel"><form method="get" class="search"><input type="search" name="q" value="@ViewBag.Q" placeholder="Buscar por nombre o identificación" aria-label="Buscar registros" /><button class="btn" type="submit">Buscar</button><a class="btn" href="@Url.Action("Index")">Limpiar</a></form>
+@if(Model.Rows.Count==0){<div class="empty"><h2>No hay registros para mostrar</h2><p>Agrega un registro o cambia tu búsqueda para comenzar.</p></div>}else{<div class="table-scroll"><table><thead><tr><th>Nombre</th><th>Descripción</th><th>Aditamentos requeridos</th><th>Acciones</th></tr></thead><tbody>@foreach(DataRow row in Model.Rows){<tr><td>@row["Nombre"]</td><td>@row["Descripcion"]</td><td><span class="pill">@row["Equipos"] aditamentos</span></td><td class="actions"><a href="@Url.Action("Detalle",new{id=row["Id"]})">Ver detalle</a>@if(Access.Has(Context,"categorias.editar")){<a href="@Url.Action("Editar",new{id=row["Id"]})">Editar</a>}@if(Access.Has(Context,"categorias.eliminar")){<a class="delete" href="@Url.Action("Eliminar",new{id=row["Id"]})">Eliminar</a>}</td></tr>}</tbody></table></div>}</div>
+

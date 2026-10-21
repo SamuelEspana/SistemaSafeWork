@@ -1,0 +1,7 @@
+﻿@model System.Data.DataTable
+@using System.Data
+@using SistemaSafeWork.Models
+@{ViewBag.Title="Usuarios";}
+<div class="page-heading"><div><span class="eyebrow">SAFEWORK · ADMINISTRACIÓN</span><h1>Usuarios</h1><p>Administra las cuentas y el acceso al sistema.</p></div>@if(Access.Has(Context,"usuarios.crear")){<a class="btn primary" href="@Url.Action("Crear")">+ Agregar registro</a>}</div>
+<div class="panel">
+@if(Model.Rows.Count==0){<div class="empty"><h2>No hay registros para mostrar</h2><p>Agrega un registro o cambia tu búsqueda para comenzar.</p></div>}else{<div class="table-scroll"><table><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>@foreach(DataRow row in Model.Rows){<tr><td>@row["Nombre"]</td><td>@row["NombreUsuario"]</td><td>@row["Rol"]</td><td>@((bool)row["Activo"]?"Activo":"Inactivo")</td><td class="actions">@if(Access.Has(Context,"usuarios.editar")){<a href="@Url.Action("Editar",new{id=row["Id"]})">Editar</a>}@if(Access.Has(Context,"usuarios.eliminar")){<a class="delete" href="@Url.Action("Eliminar",new{id=row["Id"]})">Eliminar</a>}</td></tr>}</tbody></table></div>}</div>

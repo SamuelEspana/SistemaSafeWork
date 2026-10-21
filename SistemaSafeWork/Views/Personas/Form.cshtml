@@ -1,0 +1,11 @@
+﻿@model SistemaSafeWork.Models.Persona
+@{ViewBag.Title=Model.Id==0?"Registrar persona":"Editar persona";ViewBag.PhotoType="persona";ViewBag.PhotoId=Model.Id;ViewBag.PhotoName=Model.Fotografia;ViewBag.Camera=true;}
+<div class="page-heading"><div><span class="eyebrow">PERSONAL</span><h1>@ViewBag.Title</h1><p>Identificación, categoría y fotografía del personal.</p></div></div>
+@using(Html.BeginForm(null,null,FormMethod.Post,new{enctype="multipart/form-data"})){
+@Html.AntiForgeryToken()@Html.ValidationSummary(false,"",new{@class="errors",role="alert"})<div class="panel form-panel"><div class="form-grid">
+<div><label for="Nombre">Nombre completo</label>@Html.TextBoxFor(m=>m.Nombre,new{required="required",maxlength="150"})</div>
+<div><label for="CategoriaPersonalId">Categoría de personal</label>@Html.DropDownListFor(m=>m.CategoriaPersonalId,(SelectList)ViewBag.Categorias,"Seleccionar categoría",new{required="required"})</div>
+<div><label for="FechaNacimiento">Fecha de nacimiento</label>@Html.TextBoxFor(m=>m.FechaNacimiento,"{0:yyyy-MM-dd}",new{type="date",required="required",min="1900-01-01",max=DateTime.Today.ToString("yyyy-MM-dd")})</div>
+<div><label for="DPI">DPI</label>@Html.TextBoxFor(m=>m.DPI,new{inputmode="numeric",pattern="[0-9]{13}",maxlength="13",required="required",data_digits="13"})<small>13 dígitos, sin espacios ni guiones.</small></div>
+<div><label for="Telefono">Número de teléfono</label>@Html.TextBoxFor(m=>m.Telefono,new{type="tel",inputmode="numeric",pattern="[0-9]{8}",maxlength="8",required="required",data_digits="8"})<small>Exactamente 8 dígitos.</small></div></div>
+@Html.Partial("_Photo")<div class="form-actions"><button class="btn primary">Guardar persona</button><a class="btn" href="@Url.Action("Index")">Cancelar</a></div></div>}

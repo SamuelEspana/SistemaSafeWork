@@ -1,0 +1,10 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup><RoslynToolPath>$(MSBuildThisFileDirectory)..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest</RoslynToolPath></PropertyGroup>
+  <ItemGroup><RoslynCompilerFiles Include="$(RoslynToolPath)\*" /></ItemGroup>
+  <Target Name="CopySafeWorkRoslyn" AfterTargets="CopyFilesToOutputDirectory">
+    <Copy SourceFiles="@(RoslynCompilerFiles)" DestinationFolder="$(OutputPath)roslyn" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="PackageSafeWorkRoslyn" BeforeTargets="PipelineCollectFilesPhase">
+    <ItemGroup><FilesForPackagingFromProject Include="@(RoslynCompilerFiles)"><DestinationRelativePath>bin\roslyn\%(Filename)%(Extension)</DestinationRelativePath><FromTarget>PackageSafeWorkRoslyn</FromTarget><Category>Run</Category></FilesForPackagingFromProject></ItemGroup>
+  </Target>
+</Project>

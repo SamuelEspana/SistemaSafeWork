@@ -1,0 +1,8 @@
+﻿@model SistemaSafeWork.Models.Categoria_Personal
+@using SistemaSafeWork.Models
+@using System.Linq
+@{ViewBag.Title=Model.Id==0?"Crear categoría":"Editar categoría";var equipos=(System.Collections.Generic.List<Aditamento>)ViewBag.Aditamentos;}
+<div class="page-heading"><div><span class="eyebrow">CATEGORÍAS DE PERSONAL</span><h1>@ViewBag.Title</h1><p>Selecciona los aditamentos obligatorios para esta categoría.</p></div></div>
+@using(Html.BeginForm()){@Html.AntiForgeryToken()@Html.ValidationSummary(false,"",new{@class="errors",role="alert"})<div class="panel form-panel"><label for="Nombre">Nombre</label>@Html.TextBoxFor(m=>m.Nombre,new{required="required",maxlength="120"})<label for="Descripcion">Descripción</label>@Html.TextAreaFor(m=>m.Descripcion,new{rows="3",maxlength="1000"})<h2>Aditamentos requeridos</h2><p class="muted">Cada persona de esta categoría deberá portar todo el equipo seleccionado.</p>
+if(equipos.Count==0){<p class="notice">Primero registra aditamentos en el catálogo para poder crear una categoría.</p>}
+<div class="table-scroll"><table><thead><tr><th>Requerido</th><th>Código</th><th>Aditamento</th><th>Descripción</th></tr></thead><tbody>@foreach(var item in equipos){<tr><td><input type="checkbox" name="AditamentoIds" value="@item.Id" id="ad-@item.Id" checked="@(Model.AditamentoIds.Contains(item.Id))" /></td><td>@item.Codigo</td><td><label for="ad-@item.Id">@item.Nombre</label></td><td>@item.Descripcion</td></tr>}</tbody></table></div><div class="form-actions"><button class="btn primary">Guardar categoría</button><a class="btn" href="@Url.Action("Index")">Cancelar</a></div></div>}

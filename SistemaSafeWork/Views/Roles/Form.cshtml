@@ -1,0 +1,9 @@
+@model SistemaSafeWork.Models.Rol
+@using SistemaSafeWork.Models
+@using System.Linq
+@{ViewBag.Title=Model.Id==0?"Crear rol":"Editar rol";}
+<div class="page-heading"><div><span class="eyebrow">SEGURIDAD Y ACCESOS</span><h1>@ViewBag.Title</h1><p>Los permisos se validan tanto en el menú como en cada acción del servidor.</p></div></div>
+@if(ViewBag.AdminRole==true){<div class="panel"><h2>Administrador</h2><p>Este rol tiene acceso a todas las funciones, incluidas las que se agreguen en el futuro.</p><a class="btn" href="@Url.Action("Index")">Volver</a></div>}else{
+using(Html.BeginForm()){@Html.AntiForgeryToken()@Html.ValidationSummary(false,"",new{@class="errors",role="alert"})<div class="panel form-panel"><label for="Nombre">Nombre del rol</label>@Html.TextBoxFor(m=>m.Nombre,new{required="required",maxlength="60"})<h2>Permisos</h2><div class="permission-grid">@foreach(var group in Access.Permisos.GroupBy(p=>p.Split('.')[0])){<fieldset><legend>@group.Key</legend>@foreach(var p in group){<label class="check-label"><input type="checkbox" name="Permisos" value="@p" checked="@(Model.Permisos.Contains(p))" /> @p.Substring(group.Key.Length+1).Replace("."," · ")</label>}</fieldset>}</div><div class="form-actions"><button class="btn primary">Guardar rol</button><a class="btn" href="@Url.Action("Index")">Cancelar</a></div></div>}}
+
+

@@ -1,0 +1,6 @@
+@model SistemaSafeWork.Models.ListaMonitoreo
+@{ViewBag.Title="Capturas de monitoreo";}
+<div class="page-heading"><div><span class="eyebrow">SEGURIDAD · HISTORIAL</span><h1>Capturas de monitoreo</h1><p>Personas observadas sin casco colocado en la cabeza. Fecha y hora de la captura en Guatemala (UTC−6).</p></div></div>
+@if(Model.Capturas.Count==0){<div class="panel empty"><h2>No hay capturas para mostrar</h2><p>Los eventos aparecerán aquí cuando el monitoreo detecte una persona sin casco en la cabeza.</p></div>}
+<div class="monitor-gallery">@foreach(var item in Model.Capturas){<article class="panel monitor-capture"><a href="@Url.Action("Foto",new{id=item.Id})" target="_blank" rel="noopener"><img src="@Url.Action("Foto",new{id=item.Id})" alt="Captura del persona sin casco en la cabeza" loading="lazy"/></a><h2>@item.FechaLocal</h2><p>@item.Observacion</p><small>Evento #@item.Id · Revisar visualmente</small></article>}</div>
+<div class="form-actions">@if(Model.Pagina>1){<a class="btn" href="@Url.Action("Index",new{pagina=Model.Pagina-1})">Más recientes</a>}@if(Model.HayMas){<a class="btn" href="@Url.Action("Index",new{pagina=Model.Pagina+1})">Más antiguas</a>}</div>

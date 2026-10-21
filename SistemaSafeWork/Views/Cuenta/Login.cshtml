@@ -1,0 +1,14 @@
+﻿@model SistemaSafeWork.Models.LoginModel
+@{ ViewBag.Title = "Iniciar sesión"; Layout = null; }
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Iniciar sesión · SafeWork</title><link rel="stylesheet" href="@Url.Content("~/Content/SafeWork.css")" /></head>
+<body class="login-page"><main class="login-shell">
+<section class="login-brand"><div class="brand-content"><div class="brand-logo"><img src="@Url.Content("~/Content/Images/safework.png")" alt="SafeWork Solutions" /></div><div class="brand-copy"><span class="eyebrow">SEGURIDAD EN CADA INGRESO</span><h1>Un equipo protegido.<br />Un trabajo seguro.</h1><p>Organiza a tu personal y el equipo de protección que necesita para trabajar.</p><div class="brand-tags"><span>Personal</span><span>Equipamiento</span><span>Control</span></div></div></div></section>
+<section class="login-access"><div class="login-content"><span class="login-badge">SW</span><h2>Bienvenido</h2><p class="muted">Ingresa con tu usuario de SafeWork.</p>
+@using(Html.BeginForm("Login","Cuenta",FormMethod.Post)){
+@Html.AntiForgeryToken()<input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+if(TempData["LoginError"]!=null){<div class="errors" role="alert">@TempData["LoginError"]</div>}
+@Html.ValidationSummary(false,"",new{@class="errors",role="alert"})
+<label for="Usuario">Usuario</label>@Html.TextBoxFor(m=>m.Usuario,new{autocomplete="username",placeholder="Tu usuario",required="required",autofocus="autofocus",maxlength="60"})
+<label for="Contrasena">Contraseña</label>@Html.PasswordFor(m=>m.Contrasena,new{autocomplete="current-password",placeholder="Tu contraseña",required="required"})
+<button class="btn primary login-submit" type="submit">Iniciar sesión <span aria-hidden="true">→</span></button>
+}<p class="login-footer">SAFEWORK SOLUTIONS · GESTIÓN DE SEGURIDAD</p></div></section></main></body></html>
